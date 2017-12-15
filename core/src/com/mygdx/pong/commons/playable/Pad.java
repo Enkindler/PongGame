@@ -13,7 +13,7 @@ public class Pad implements Drawable {
 	public double posX = 10;
 	public int posY = 10;
 
-	public int padSpeed = 10;
+	public int padSpeed = 50;
 	public int padWidth = 100;
 	public int padHeight = 10;
 

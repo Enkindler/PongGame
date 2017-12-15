@@ -1,5 +1,6 @@
 package com.mygdx.pong;
 
+import java.awt.Rectangle;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -12,24 +13,25 @@ import com.mygdx.pong.commons.playable.PlayerPad;
 
 public class PongGame extends ApplicationAdapter {
 	SpriteBatch batch;
-	Texture img;
+//	Texture img;
 	ShapeRenderer shapeRenderer;
 	PlayerPad playerPad;
+	public static final int fieldWidthBounds = 100;
 
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		img = new Texture("badlogic.jpg");
+//		img = new Texture("badlogic.jpg");
 		shapeRenderer = new ShapeRenderer();
 		playerPad = new PlayerPad(shapeRenderer, 500, 10);
 	}
 
 	@Override
 	public void render () {
-		Gdx.gl.glClearColor(1, 0, 0, 1);
+		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
-		batch.draw(img, 0, 0);
+//		batch.draw(img, 0, 0);
 		batch.end();
 
 
@@ -43,7 +45,7 @@ public class PongGame extends ApplicationAdapter {
 	@Override
 	public void dispose () {
 		batch.dispose();
-		img.dispose();
+//		img.dispose();
 		shapeRenderer.dispose();
 	}
 }
