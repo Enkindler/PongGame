@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.mygdx.pong.commons.PongGameRules;
 import com.mygdx.pong.commons.input.PlayerController;
 import com.mygdx.pong.commons.playable.Pad;
 import com.mygdx.pong.commons.playable.PlayerPad;
@@ -23,7 +24,7 @@ public class PongGame extends ApplicationAdapter {
 		batch = new SpriteBatch();
 //		img = new Texture("badlogic.jpg");
 		shapeRenderer = new ShapeRenderer();
-		playerPad = new PlayerPad(shapeRenderer, 500, 10);
+		playerPad = new PlayerPad(shapeRenderer, PongGameRules.PLAYER_ONE_STARTING_HORIZONTAL, PongGameRules.PLAYER_ONE_STARTING_VERTICAL);
 	}
 
 	@Override
