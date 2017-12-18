@@ -1,6 +1,7 @@
 package com.mygdx.pong.commons.playable;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Rectangle;
 import com.mygdx.pong.commons.interfaces.Drawable;
 
 public class Pad implements Drawable {
@@ -17,6 +18,8 @@ public class Pad implements Drawable {
 	public int padWidth = 100;
 	public int padHeight = 10;
 
+	protected Rectangle padCollider;
+
 
 
 	public Pad(ShapeRenderer shapeRenderer) {
@@ -27,10 +30,24 @@ public class Pad implements Drawable {
 		this.shapeRenderer = shapeRenderer;
 		this.posX = posX;
 		this.posY = posY;
+		this.padCollider = new Rectangle(posX, posY, padWidth, padHeight);
 	}
 
 	@Override
 	public void draw() {
-		shapeRenderer.box(new Double(posX).intValue(),posY,0, padWidth,padHeight,0);
+		shapeRenderer.box(padCollider.x, padCollider.y, 0, padCollider.width, padCollider.height, 0);
+//		shapeRenderer.box(new Double(posX).intValue(),posY,0, padWidth,padHeight,0);
+	}
+
+	public Rectangle getPadCollider() {
+		return padCollider;
+	}
+
+	public void modifyXPosition(float xPositionModifier) {
+		this.padCollider.x = this.padCollider.x + xPositionModifier;
+	}
+
+	public void setXPosition(float newXPosition) {
+		this.padCollider.x = newXPosition;
 	}
 }
