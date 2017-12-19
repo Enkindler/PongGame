@@ -52,6 +52,9 @@ public class PongGame extends ApplicationAdapter {
 		player2.getController().movePlayer(player2.getPlayerPad());
 		gameBall.move();
 
+		player.getPlayerPad().onCollide(gameBall);
+		player2.getPlayerPad().onCollide(gameBall);
+
 		shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 		player.getPlayerPad().draw();
 		player2.getPlayerPad().draw();

@@ -1,7 +1,11 @@
 package com.mygdx.pong.commons.playable;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
+import com.mygdx.pong.commons.balls.Ball;
 import com.mygdx.pong.commons.interfaces.Drawable;
 
 public class Pad implements Drawable {
@@ -49,5 +53,16 @@ public class Pad implements Drawable {
 
 	public void setXPosition(float newXPosition) {
 		this.padCollider.x = newXPosition;
+	}
+
+	//TODO: Improve this. Ball should instead be an interface or something that implements a getter to the actual collider
+	//TODO: Or something of the sort
+	public void onCollide(Ball other) {
+		Circle ballCollider = other.getBallCollider();
+
+		if(Intersector.overlaps(ballCollider, this.padCollider)) {
+			other.directionY *= -1;
+		}
+
 	}
 }

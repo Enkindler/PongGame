@@ -3,6 +3,8 @@ package com.mygdx.pong.commons.balls;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
+import com.mygdx.pong.PongGame;
+import com.mygdx.pong.commons.PongGameRules;
 import com.mygdx.pong.commons.interfaces.Drawable;
 import com.mygdx.pong.commons.interfaces.Movable;
 
@@ -13,8 +15,9 @@ public class Ball implements Drawable, Movable {
 
 	protected float posX;
 	protected float posY;
-	protected int directionX;
-	protected int directionY;
+	//TODO: THis SHOULDN'T BE PUBLIC FFS
+	public int directionX;
+	public int directionY;
 	protected int speed = 150;
 	protected Circle ballCollider;
 
@@ -22,8 +25,8 @@ public class Ball implements Drawable, Movable {
 		this.shapeRenderer = shapeRenderer;
 		this.directionX = -1;
 		this.directionY = -1;
-		this.posX = 600;
-		this.posY = 600;
+		this.posX = PongGameRules.SCREEN_WIDTH / 2;
+		this.posY = PongGameRules.SCREEN_HEIGHT / 2;
 		ballCollider = new Circle(posX, posY, radius);
 	}
 
@@ -39,6 +42,17 @@ public class Ball implements Drawable, Movable {
 	public void move() {
 		this.ballCollider.x = this.ballCollider.x + this.getPosXModifier();
 		this.ballCollider.y = this.ballCollider.y + this.getPosYModifier();
+
+		if(this.ballCollider.x <= 0) {
+			this.ballCollider.x = 0;
+			this.directionX *= -1;
+		}
+
+		if(this.ballCollider.x >= PongGameRules.SCREEN_WIDTH) {
+			this.ballCollider.x = PongGameRules.SCREEN_WIDTH;
+			this.directionX *= -1;
+
+		}
 	}
 
 	protected float getPosXModifier() {
@@ -47,5 +61,9 @@ public class Ball implements Drawable, Movable {
 
 	protected float getPosYModifier() {
 		return (speed * Gdx.graphics.getDeltaTime() * directionY);
+	}
+
+	public Circle getBallCollider() {
+		return this.ballCollider;
 	}
 }
