@@ -3,7 +3,6 @@ package com.mygdx.pong.commons.balls;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
-import com.mygdx.pong.PongGame;
 import com.mygdx.pong.commons.PongGameRules;
 import com.mygdx.pong.commons.interfaces.Drawable;
 import com.mygdx.pong.commons.interfaces.Movable;
