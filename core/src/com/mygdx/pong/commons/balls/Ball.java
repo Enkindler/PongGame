@@ -3,17 +3,17 @@ package com.mygdx.pong.commons.balls;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
-import com.mygdx.pong.commons.PongGameRules;
+import com.mygdx.pong.PongGame;
+import com.mygdx.pong.PongGameController;
 import com.mygdx.pong.commons.interfaces.Drawable;
 import com.mygdx.pong.commons.interfaces.Movable;
+import com.mygdx.pong.commons.utils.CommonFactory;
 
 public class Ball implements Drawable, Movable {
 
 	private ShapeRenderer shapeRenderer;
 	protected int radius = 5;
 
-	protected float posX;
-	protected float posY;
 	//TODO: THis SHOULDN'T BE PUBLIC FFS
 	public int directionX;
 	public int directionY;
@@ -22,11 +22,7 @@ public class Ball implements Drawable, Movable {
 
 	public Ball(ShapeRenderer shapeRenderer) {
 		this.shapeRenderer = shapeRenderer;
-		this.directionX = -1;
-		this.directionY = -1;
-		this.posX = PongGameRules.SCREEN_WIDTH / 2;
-		this.posY = PongGameRules.SCREEN_HEIGHT / 2;
-		ballCollider = new Circle(posX, posY, radius);
+		ballCollider = new Circle(10, 10, radius);
 	}
 
 
@@ -47,10 +43,16 @@ public class Ball implements Drawable, Movable {
 			this.directionX *= -1;
 		}
 
-		if(this.ballCollider.x >= PongGameRules.SCREEN_WIDTH) {
-			this.ballCollider.x = PongGameRules.SCREEN_WIDTH;
+		if(this.ballCollider.x >= PongGameController.SCREEN_WIDTH) {
+			this.ballCollider.x = PongGameController.SCREEN_WIDTH;
 			this.directionX *= -1;
+		}
 
+		if(this.ballCollider.y < 0 || this.ballCollider.y > PongGameController.SCREEN_HEIGHT) {
+			//TODO: Improve this! Its pretty ugly!
+//			PongGame.get.score(this.ballCollider.y < 0);
+			CommonFactory.getPongGameControllerInstance().score(this.ballCollider.y < 0);
+			CommonFactory.getPongGameControllerInstance().resetGame();
 		}
 	}
 

@@ -1,7 +1,7 @@
 package com.mygdx.pong.commons.input.interfaces;
 
 import com.badlogic.gdx.Gdx;
-import com.mygdx.pong.commons.PongGameRules;
+import com.mygdx.pong.PongGameController;
 import com.mygdx.pong.commons.playable.Pad;
 
 public interface PlayerController {
@@ -12,8 +12,8 @@ public interface PlayerController {
 		float positionModifier = calculatePositionModifier(pad);
 		pad.modifyXPosition(positionModifier);
 
-		if(pad.getPadCollider().x >=Gdx.graphics.getWidth() - pad.padWidth - PongGameRules.FIELD_HORIZONTAL_BOUNDS) {
-			pad.setXPosition(Gdx.graphics.getWidth() - pad.padWidth - PongGameRules.FIELD_HORIZONTAL_BOUNDS);
+		if(pad.getPadCollider().x >=Gdx.graphics.getWidth() - pad.padWidth - PongGameController.FIELD_HORIZONTAL_BOUNDS) {
+			pad.setXPosition(Gdx.graphics.getWidth() - pad.padWidth - PongGameController.FIELD_HORIZONTAL_BOUNDS);
 		}
 	}
 
@@ -21,8 +21,8 @@ public interface PlayerController {
 		float positionModifier = calculatePositionModifier(pad) * -1;
 		pad.modifyXPosition(positionModifier);
 
-		if(pad.getPadCollider().x <= PongGameRules.FIELD_HORIZONTAL_BOUNDS) {
-			pad.setXPosition(PongGameRules.FIELD_HORIZONTAL_BOUNDS);
+		if(pad.getPadCollider().x <= PongGameController.FIELD_HORIZONTAL_BOUNDS) {
+			pad.setXPosition(PongGameController.FIELD_HORIZONTAL_BOUNDS);
 		}
 	}
 

@@ -5,38 +5,39 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.mygdx.pong.commons.PongGameRules;
 import com.mygdx.pong.commons.balls.Ball;
-import com.mygdx.pong.commons.input.PlayerOneController;
-import com.mygdx.pong.commons.input.interfaces.PlayerTwoController;
-import com.mygdx.pong.commons.playable.player.Player;
+import com.mygdx.pong.commons.utils.CommonFactory;
 
 //TODO: In the future, remove global rules, instead use some sort of map class to have different levels with different rules.
 
 public class PongGame extends ApplicationAdapter {
 	SpriteBatch batch;
 	ShapeRenderer shapeRenderer;
-	Player player;
-	Player player2;
 	Ball gameBall;
 
+	PongGameController pongGameController;
 	Texture gameBackground;
+
+	BitmapFont font;
 
 	@Override
 	public void create () {
-		this.resize(PongGameRules.SCREEN_WIDTH, PongGameRules.SCREEN_HEIGHT);
+
+		this.resize(PongGameController.SCREEN_WIDTH, PongGameController.SCREEN_HEIGHT);
 		batch = new SpriteBatch();
 		gameBackground = new Texture(new FileHandle("MainBackground.jpg"), true);
-		shapeRenderer = new ShapeRenderer();
+		shapeRenderer = CommonFactory.getCommonShapeRenderer();
+		font = new BitmapFont();
+
 
 		//TODO: Improve playerController to avoid instantiating, maybe some sort of dependency injection?
 		//TODO: Also improve creation of the pad.
-		player = new Player(new PlayerOneController(), shapeRenderer, PongGameRules.SCREEN_WIDTH / 2, PongGameRules.FIELD_VERTICAL_BOUNDS);
-		player2 = new Player(new PlayerTwoController(), shapeRenderer, PongGameRules.SCREEN_WIDTH / 2, PongGameRules.SCREEN_HEIGHT - PongGameRules.FIELD_VERTICAL_BOUNDS);
+		pongGameController = CommonFactory.getPongGameControllerInstance();
 
-		gameBall = new Ball(shapeRenderer);
+		gameBall = pongGameController.getBall();
 
 	}
 
@@ -46,18 +47,23 @@ public class PongGame extends ApplicationAdapter {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
 		batch.draw(gameBackground, 0,0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		font.draw(batch, "Player One Score: " + pongGameController.getPlayer1().score, 10, PongGameController.SCREEN_HEIGHT - 20);
+		font.draw(batch, "Player Two Score: " + pongGameController.getPlayer2().score, PongGameController.SCREEN_WIDTH - 200,
+				PongGameController.SCREEN_HEIGHT - 20);
 		batch.end();
 
-		player.getController().movePlayer(player.getPlayerPad());
-		player2.getController().movePlayer(player2.getPlayerPad());
+
+
+		pongGameController.getPlayer1().getController().movePlayer(pongGameController.getPlayer1().getPlayerPad());
+		pongGameController.getPlayer2().getController().movePlayer(pongGameController.getPlayer2().getPlayerPad());
 		gameBall.move();
 
-		player.getPlayerPad().onCollide(gameBall);
-		player2.getPlayerPad().onCollide(gameBall);
+		pongGameController.getPlayer1().getPlayerPad().onCollide(gameBall);
+		pongGameController.getPlayer2().getPlayerPad().onCollide(gameBall);
 
 		shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-		player.getPlayerPad().draw();
-		player2.getPlayerPad().draw();
+		pongGameController.getPlayer1().getPlayerPad().draw();
+		pongGameController.getPlayer2().getPlayerPad().draw();
 		gameBall.draw();
 		shapeRenderer.end();
 	}
