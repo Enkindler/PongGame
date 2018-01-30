@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.mygdx.pong.commons.balls.Ball;
+import com.mygdx.pong.commons.utils.CommonDrawer;
 import com.mygdx.pong.commons.utils.CommonFactory;
 
 //TODO: In the future, remove global rules, instead use some sort of map class to have different levels with different rules.
@@ -19,7 +20,6 @@ public class PongGame extends ApplicationAdapter {
 	Ball gameBall;
 
 	PongGameController pongGameController;
-	Texture gameBackground;
 
 	BitmapFont font;
 
@@ -28,10 +28,8 @@ public class PongGame extends ApplicationAdapter {
 
 		this.resize(PongGameController.SCREEN_WIDTH, PongGameController.SCREEN_HEIGHT);
 		batch = new SpriteBatch();
-		gameBackground = new Texture(new FileHandle("MainBackground.jpg"), true);
 		shapeRenderer = CommonFactory.getCommonShapeRenderer();
 		font = new BitmapFont();
-
 
 		//TODO: Improve playerController to avoid instantiating, maybe some sort of dependency injection?
 		//TODO: Also improve creation of the pad.
@@ -43,16 +41,7 @@ public class PongGame extends ApplicationAdapter {
 
 	@Override
 	public void render () {
-		Gdx.gl.glClearColor(0, 0, 0, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		batch.begin();
-		batch.draw(gameBackground, 0,0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		font.draw(batch, "Player One Score: " + pongGameController.getPlayer1().score, 10, PongGameController.SCREEN_HEIGHT - 20);
-		font.draw(batch, "Player Two Score: " + pongGameController.getPlayer2().score, PongGameController.SCREEN_WIDTH - 200,
-				PongGameController.SCREEN_HEIGHT - 20);
-		batch.end();
-
-
+		CommonDrawer.drawUI(batch, pongGameController);
 
 		pongGameController.getPlayer1().getController().movePlayer(pongGameController.getPlayer1().getPlayerPad());
 		pongGameController.getPlayer2().getController().movePlayer(pongGameController.getPlayer2().getPlayerPad());
@@ -72,6 +61,6 @@ public class PongGame extends ApplicationAdapter {
 	public void dispose () {
 		batch.dispose();
 		shapeRenderer.dispose();
-		gameBackground.dispose();
+		pongGameController.disponse();
 	}
 }

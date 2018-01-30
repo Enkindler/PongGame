@@ -1,10 +1,13 @@
 package com.mygdx.pong;
 
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.mygdx.pong.commons.balls.Ball;
 import com.mygdx.pong.commons.input.PlayerOneController;
 import com.mygdx.pong.commons.input.interfaces.PlayerTwoController;
 import com.mygdx.pong.commons.playable.player.Player;
+import com.mygdx.pong.commons.worlds.IWorld;
+import com.mygdx.pong.commons.worlds.impl.World1;
 
 public class PongGameController {
 
@@ -19,12 +22,17 @@ public class PongGameController {
 	private Player player1;
 	private Player player2;
 	private Ball ball;
+	private IWorld gameWorld;
+	private BitmapFont gameFont;
 
 	public PongGameController(ShapeRenderer shapeRenderer) {
 		player1 = new Player(new PlayerOneController(), shapeRenderer, PongGameController.SCREEN_WIDTH / 2, PongGameController.FIELD_VERTICAL_BOUNDS);
 		player2 = new Player(new PlayerTwoController(), shapeRenderer, PongGameController.SCREEN_WIDTH / 2, PongGameController.SCREEN_HEIGHT - PongGameController.FIELD_VERTICAL_BOUNDS);
 		ball = new Ball(shapeRenderer);
 		setBallInitParameters();
+		//TODO: Add way of handling world changes
+		gameWorld = new World1();
+		gameFont = new BitmapFont();
 	}
 
 	public Player getPlayer1() {
@@ -57,5 +65,18 @@ public class PongGameController {
 		ball.directionY = -1;
 		ball.getBallCollider().x = PongGameController.SCREEN_WIDTH / 2;
 		ball.getBallCollider().y = PongGameController.SCREEN_HEIGHT / 2;
+	}
+
+	public IWorld getGameWorld() {
+		return gameWorld;
+	}
+
+	public BitmapFont getGameFont() {
+		return gameFont;
+	}
+
+	public void disponse() {
+		gameWorld.dispose();
+		gameFont.dispose();
 	}
 }
